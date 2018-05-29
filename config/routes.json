@@ -1,0 +1,15 @@
+{
+    "default": {
+	"controller" : "\\cms\\controller\\Index",
+        "method" : "welcome",
+        "app" : "cms"
+    },
+
+    "routes" : {
+        "/info" : {
+            "GET" : {
+                "eval" : "phpinfo();"
+            }
+        }
+    }
+}

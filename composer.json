@@ -1,0 +1,5 @@
+{
+    "require": {
+        "harpya/ufw-base": "^0.1.10"
+    }
+}

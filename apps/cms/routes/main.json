@@ -1,0 +1,13 @@
+{
+    "default": {
+	"controller" : "\\myapp\\MyController",
+        "method" : "welcome"
+    },
+    "routes": {
+        "/info" : {
+            "GET" : {
+                "eval" : "phpinfo();"
+            }
+        }
+   }
+}
