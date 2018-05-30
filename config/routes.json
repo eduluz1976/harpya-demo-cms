@@ -10,6 +10,13 @@
             "GET" : {
                 "eval" : "phpinfo();"
             }
+        },
+        "/signup" : {
+            "GET" : {
+                "controller" : "\\cms\\controller\\Index",
+                "method" : "showFormSignup",
+                "app" : "cms"
+            }
         }
     }
 }

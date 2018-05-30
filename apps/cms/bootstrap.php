@@ -12,6 +12,4 @@ try {
     exit;
 }
 
-
-
-// include __DIR__."/config/db_init.php";
+include __DIR__."/config/db_init.php";
