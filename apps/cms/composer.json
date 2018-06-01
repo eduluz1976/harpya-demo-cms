@@ -10,6 +10,7 @@
     },    
     "autoload": {
         "psr-4": {
+            "cms\\tests\\integration\\" : "tests/integration/",
             "myapp\\": "src/",
             "cms\\": "src/"
         }

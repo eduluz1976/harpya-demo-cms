@@ -11,10 +11,34 @@
                 "eval" : "phpinfo();"
             }
         },
+        "/tkn/{token}" : {
+            "GET" : {
+                "controller" : "\\cms\\controller\\Base",
+                "method" : "runToken",
+                "app" : "cms"
+            }
+        },
         "/signup" : {
             "GET" : {
-                "controller" : "\\cms\\controller\\Index",
+                "controller" : "\\cms\\controller\\Signup",
                 "method" : "showFormSignup",
+                "app" : "cms"
+            },
+            "POST" : {
+                "controller" : "\\cms\\controller\\Signup",
+                "method" : "performSignup",
+                "app" : "cms"
+            }
+        },
+        "/signin" : {
+            "GET" : {
+                "controller" : "\\cms\\controller\\Index",
+                "method" : "showFormSignin",
+                "app" : "cms"
+            },
+            "POST" : {
+                "controller" : "\\cms\\controller\\Index",
+                "method" : "performSignin",
                 "app" : "cms"
             }
         }

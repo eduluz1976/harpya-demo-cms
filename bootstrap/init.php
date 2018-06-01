@@ -11,6 +11,7 @@ $app = Application::getInstance([
     Application::CMP_REQUEST => $request,
     Application::CMP_CONFIG => \harpya\ufw\Config::of(__DIR__.'/../config'),
     Application::CMP_VIEW => \harpya\ufw\view\Smarty::getInstance()
+        , Application::CMP_DEBUG => 1
 ]);
 
 $app->init();

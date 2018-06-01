@@ -1,0 +1,1 @@
+<h1>User {$email} verified</h1>

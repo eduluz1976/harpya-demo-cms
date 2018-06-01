@@ -1,9 +1,6 @@
 <form method="POST" action='/signup'>
 <div class="row">
-    
-        <div class="col-sm-6 form-group">
-          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-        </div>
+    <h1>Sign up</h1>
         <div class="col-sm-6 form-group">
           <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
         </div>
@@ -11,10 +8,9 @@
           <input class="form-control" id="password" name="password" placeholder="Password" type="password" required>
         </div>
       </div>
-
       <div class="row">
         <div class="col-sm-12 form-group">
-          <button class="btn btn-default pull-right" type="submit">Send</button>
+          <button class="btn btn-success pull-right" type="submit">Send</button>
         </div>
           
       </div>    

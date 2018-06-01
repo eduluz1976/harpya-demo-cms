@@ -4,28 +4,40 @@ namespace cms\controller;
 class Index extends Base {
     
     public function welcome() {
+        
+        
+        $slugfy = \Cocur\Slugify\Slugify::create();
+        $slug = $slugfy->slugify($_SERVER['REQUEST_URI']);
+        
+        if (empty($slug)) {
+            $slug = "/";
+        }
+        
+        $page = \cms\model\Page::where('slug','=',$slug)->first();
+
+        if (!empty($page)) {
+            $this->setContents($page->contents);
+        }
+        
         $this->showLandingPage();
-        
-        
-//        if (!\cms\helper\Authenticated::isLogged()) {
-//            $this->showLandingPage();
-//        } else {
-//            $this->showPage(['slug'=>'welcome']);
-//        }
-        
     }
     
     
-    public function showFormSignup() {
+    public function showFormSignin() {
         
         $contents = \harpya\ufw\Application::getInstance()
-                    ->getView()->fetch('forms/signup.tpl');
+                    ->getView()->fetch('forms/signin.tpl');
         
+        $this->setContents($contents);
+        $this->showLandingPage();
         
-        \harpya\ufw\Application::getInstance()
-                    ->getView()->assign('contents', $contents, true);
-         $this->showLandingPage();
     }
+    
+    
+    public function performSignin() {
+        dd($this->getParms());
+    }
+    
     
     
 }
