@@ -2,6 +2,8 @@
 
 namespace cms\controller;
 
+use \cms\helper\Email;
+
 class Signup extends Base {
 
     public function showFormSignup() {
@@ -24,10 +26,22 @@ class Signup extends Base {
         $token = new \cms\model\Token();
         
         $hash = $token->createNewToken($id, $email);
-        echo "\n hash = $hash \n";
+        //echo "\n hash = $hash \n";
         // send email...
         
-        dd($this->getParms());
+        $props = [
+            Email::EMAIL_FROM_ADDR => 'mail@systlets.com',
+            Email::EMAIL_TO_ADDR => 'eduluz1976@gmail.com',
+            Email::TITLE => 'Verify your account',
+            Email::MIME_TYPE => 'text/html',
+            Email::CONTENT => "Welcome.<br> Verify your account $hash "
+        ];
+        
+        
+        $r = Email::send($props);
+        
+        
+        dd($r);
         
     }
     
