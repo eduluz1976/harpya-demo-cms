@@ -18,30 +18,51 @@ class Signup extends Base {
     
     public function performSignup() {
         
-        $email = $this->getParm('email');
-        $user = new \cms\model\User();
-        $user->setPassword($this->getParm('password'));
-        $id = $user->createNewUser($email,$this->getParm('password'));
         
-        $token = new \cms\model\Token();
+        try {
+            $email = $this->getParm('email');
+            
+            $this->getView()->assign('email', $email);
+            
+            $user = new \cms\model\User();
+            $user->setPassword($this->getParm('password'));        
+            $id = $user->createNewUser($email,$this->getParm('password'));
+
+            $token = new \cms\model\Token();
+
+
+            $hash = $token->createNewToken($id, $email);
+            //echo "\n hash = $hash \n";
+            // send email...
+
+            $props = [
+                Email::EMAIL_FROM_ADDR => 'mail@systlets.com',
+                Email::EMAIL_TO_ADDR => 'eduluz1976@gmail.com',
+                Email::TITLE => 'Verify your account',
+                Email::MIME_TYPE => 'text/html',
+                Email::CONTENT => "Welcome.<br> Verify your account $hash "
+            ];
+
+
+            $r = Email::send($props);
+
         
-        $hash = $token->createNewToken($id, $email);
-        //echo "\n hash = $hash \n";
-        // send email...
+            $contents = $this->getView()->fetch('pages/email_sent.tpl');
+
         
-        $props = [
-            Email::EMAIL_FROM_ADDR => 'mail@systlets.com',
-            Email::EMAIL_TO_ADDR => 'eduluz1976@gmail.com',
-            Email::TITLE => 'Verify your account',
-            Email::MIME_TYPE => 'text/html',
-            Email::CONTENT => "Welcome.<br> Verify your account $hash "
-        ];
+
+        } catch (\cms\exception\UserAlreadyExistsException $ex) {
+            
+            $this->performSignin();
+            
+        } catch (\Exception $ex) {            
+            
+            $this->getView()->assign('msg', $ex->getMessage());
+            $contents = $this->getView()->fetch('forms/signup.tpl');
+        }
         
-        
-        $r = Email::send($props);
-        
-        
-        dd($r);
+        $this->setContents($contents);
+        $this->showLandingPage();
         
     }
     

@@ -1,8 +1,15 @@
 <form method="POST" action='/signin'>
 <div class="row">
     <h1>Sign in</h1>
+    
+    {if isset($msg)}
+    <div class="col-sm-12">
+        {$msg}
+    </div>
+    {/if}
+    
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required value="{$email}">
         </div>
         <div class="col-sm-6 form-group">
           <input class="form-control" id="password" name="password" placeholder="Password" type="password" required>

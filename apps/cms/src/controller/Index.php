@@ -56,17 +56,11 @@ class Index extends Base {
     
     public function showFormSignin() {
         
-        $contents = \harpya\ufw\Application::getInstance()
-                    ->getView()->fetch('forms/signin.tpl');
+        $contents = $this->getView()->fetch('forms/signin.tpl');
         
         $this->setContents($contents);
         $this->showLandingPage();
         
-    }
-    
-    
-    public function performSignin() {
-        dd($this->getParms());
     }
     
     

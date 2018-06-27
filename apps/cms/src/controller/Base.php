@@ -7,14 +7,11 @@ use \harpya\ufw\Controller;
 class Base extends Controller {
     
     protected function setContents($contents='') {
-        \harpya\ufw\Application::getInstance()
-                ->getView()->assign('contents', $contents);
+        $this->getView()->assign('contents', $contents);
         
     }
     
     public function showLandingPage() {
-      $view = \harpya\ufw\Application::getInstance()
-                    ->getView();
       
       $app = ['title'=>'MyCMS'];
       $page = [
@@ -33,12 +30,12 @@ class Base extends Controller {
       }
 
       
-      $view->assign('app', $app);
-      $view->assign('page', $page);
+      $this->getView()->assign('app', $app);
+      $this->getView()->assign('page', $page);
       
       
       
-      $view->display('main.tpl');           
+      $this->getView()->display('main.tpl');           
     }
     
     
@@ -79,6 +76,36 @@ class Base extends Controller {
         exit;        
         
     }
+    
+    
+
+    public function performSignin() {
+        
+         
+         
+        try {
+            $email = $this->getParm('email');
+
+            $this->getView()->assign('email', $email);
+            
+            $result = \cms\model\User::login($email,$this->getParm('password'));
+            
+            $contents = $this->getView()->fetch('dashboard/index.tpl');
+            
+            // set session
+            // show dashboard
+        } catch (\Exception $ex) {
+            // show pagina de login, com msg de erro
+  
+            $this->getView()->assign('msg', $ex->getMessage());
+            $contents = $this->getView()->fetch('forms/signin.tpl');            
+        }
+        
+        
+        $this->setContents($contents);
+        $this->showLandingPage();
+    }
+        
     
     
     
