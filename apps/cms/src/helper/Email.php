@@ -74,27 +74,13 @@ class Email {
         }
 
         
-//        $content = new \SendGrid\Content(Utils::get(self::MIME_TYPE, $props,Application::getInstance()->getRequest()->get(self::MIME_TYPE,"text/html")), $html);
-
-//        dd($content);
-//        echo "\n\n";
-//        echo "\n from = " . json_encode($from);
-//        echo "\n to = " . json_encode($to);
-//        echo "\n subject = " . json_encode($subject);
-//        echo "\n content = " . json_encode($content);
         $resp = [];
         try {
-//            echo " Key = $apiKey ";
             $sendgrid = new \SendGrid($apiKey);
             $email->setSubject($subject);
             $email->addContent('text/html', $html);
             
-//            $mail = new \SendGrid\Mail($from, $subject, $to, $content);
-//            $sg = new \SendGrid($apiKey);
-
-//            $response = $sg->client->mail()->send()->post($mail);
-
-$response = $sendgrid->send($email);
+            $response = $sendgrid->send($email);
             
             $resp['stats'] = $response->statusCode();
             $resp['headers'] = $response->headers();        

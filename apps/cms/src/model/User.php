@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class User extends Eloquent
 {
     
+    
+    
     public function createNewUser($email, $password) {
         $this->setEmail($email);
         $this->setPassword($password);

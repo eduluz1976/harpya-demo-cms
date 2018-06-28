@@ -24,35 +24,15 @@ class Signup extends Base {
             
             $this->getView()->assign('email', $email);
             
-            $user = new \cms\model\User();
-            $user->setPassword($this->getParm('password'));        
-            $id = $user->createNewUser($email,$this->getParm('password'));
-
-            $token = new \cms\model\Token();
-
-
-            $hash = $token->createNewToken($id, $email);
-            //echo "\n hash = $hash \n";
-            // send email...
-
-            $props = [
-                Email::EMAIL_FROM_ADDR => 'mail@systlets.com',
-                Email::EMAIL_TO_ADDR => 'eduluz1976@gmail.com',
-                Email::TITLE => 'Verify your account',
-                Email::MIME_TYPE => 'text/html',
-                Email::CONTENT => "Welcome.<br> Verify your account $hash "
-            ];
-
-
-            $r = Email::send($props);
-
-        
+            $user = new \cms\bo\User();
+            $user->createNewUser($email, $this->getParm('password'));
+            
+            
+            $hash = $user->getHash();
+            $this->sendVerificationEmail($email, $hash);
             $contents = $this->getView()->fetch('pages/email_sent.tpl');
 
-        
-
         } catch (\cms\exception\UserAlreadyExistsException $ex) {
-            
             $this->performSignin();
             
         } catch (\Exception $ex) {            
@@ -66,7 +46,26 @@ class Signup extends Base {
         
     }
     
-    
+    protected function sendVerificationEmail($email,$hash) {
+
+        $this->getView()->assign('HOST', getenv('HOST'));
+        $this->getView()->assign('hash', $hash);
+        $this->getView()->assign('email', $email);
+        $htmlEmailContents = $this->getView()->fetch('email/verify_email.tpl');
+
+        $props = [
+            Email::EMAIL_FROM_ADDR => 'mail@systlets.com',
+            Email::EMAIL_FROM_NAME => 'Verify your account <noreply@@systlets.com>',
+            Email::EMAIL_TO_ADDR => $email,
+            Email::TITLE => 'Verify your account',
+            Email::MIME_TYPE => 'text/html',
+            Email::CONTENT => $htmlEmailContents                    
+        ];
+
+        $r = Email::send($props);
+        
+        return $r;
+    }
     
     public function verifyNewUser() {
         
@@ -85,11 +84,9 @@ class Signup extends Base {
             $user->status = 2;
             $user->update();
             
-            \harpya\ufw\Application::getInstance()
-                        ->getView()->assign('email', $user->email);
+            $this->getView()->assign('email', $user->email);
 
-            $contents = \harpya\ufw\Application::getInstance()
-                        ->getView()->fetch('pages/user_verified.tpl');
+            $contents = $this->getView()->fetch('pages/user_verified.tpl');
 
             return $contents;
         }
