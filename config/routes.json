@@ -41,6 +41,24 @@
                 "method" : "performSignin",
                 "app" : "cms"
             }
+        },
+        "/forgot_password" : {
+            "GET" : {
+                "controller" : "\\cms\\controller\\Index",
+                "method" : "showFormSendLinkResetPassword",
+                "app" : "cms"
+            },
+            "POST" : {
+                "controller" : "\\cms\\controller\\Index",
+                "method" : "sendLinkResetPassword",
+                "app" : "cms"
+            },
+            "PUT" : {
+                "controller" : "\\cms\\controller\\Index",
+                "method" : "performResetPassword",
+                "app" : "cms"
+            }
+        
         }
     }
 }
