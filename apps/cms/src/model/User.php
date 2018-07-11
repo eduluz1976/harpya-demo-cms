@@ -8,6 +8,13 @@ class User extends Eloquent
 {
     
     
+    public function test1($email){
+        
+        $user = \cms\model\User::where('email','=',$email)->first();
+        dd($user);
+    }
+    
+    
     
     public function createNewUser($email, $password) {
         $this->setEmail($email);
@@ -45,13 +52,14 @@ class User extends Eloquent
         
         $hash = hash('sha256', $password);
         
-//        $response['user'] = $user;
-//        $response['email'] = $email;
+        $response['user'] = $user;
+        $response['email'] = $email;
 //        $response['user.password'] = $user->hash;
 //        $response['hash'] = $hash;
         
         if (hash_equals($user->hash, $hash)) {
             $response['success'] = true;
+//            $response['user'] = $user->id;
         } else {
             throw new \cms\exception\InvalidUserPasswordException("Invalid username and/or password");
         }

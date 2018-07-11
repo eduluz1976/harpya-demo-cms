@@ -3,6 +3,7 @@
 namespace cms\controller;
 
 use \harpya\ufw\Controller;
+use \harpya\ufw\Utils;
 
 class Base extends Controller {
     
@@ -82,21 +83,24 @@ class Base extends Controller {
     public function performSignin() {
         
          
-         
         try {
             $email = $this->getParm('email');
 
             $this->getView()->assign('email', $email);
             
-            $result = \cms\model\User::login($email,$this->getParm('password'));
+            
+            $bo = new \cms\bo\User();
+            $bo->login($email, $this->getParm('password'));
+            
+            $this->getView()->assign('session',
+                    json_encode(
+                    \harpya\ufw\Application::getInstance()->getSession()->get('logged')
+                            , JSON_PRETTY_PRINT)
+                            );
             
             $contents = $this->getView()->fetch('dashboard/index.tpl');
             
-            // set session
-            // show dashboard
         } catch (\Exception $ex) {
-            // show pagina de login, com msg de erro
-  
             $this->getView()->assign('msg', $ex->getMessage());
             $contents = $this->getView()->fetch('forms/signin.tpl');            
         }

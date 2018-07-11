@@ -24,5 +24,19 @@ $capsule->addConnection([
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
+$dsn = "$dbType:dbname=$dbName";
+if ($dbHost) {
+    $dsn.=";host=$dbHost";
+} else {
+    $dsn.=";host=localhost";
+}
+
+if ($dbPort) {
+    $dsn.=";port=$dbPort";
+}
+
+$dao = new \harpya\ufw\DAO($dsn, $dbUser, $dbPass);
+
+\harpya\ufw\Application::getInstance()->addProp(\harpya\ufw\Application::CMP_DB, $dao);
 
 

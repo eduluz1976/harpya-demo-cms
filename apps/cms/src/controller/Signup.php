@@ -81,8 +81,13 @@ class Signup extends Base {
                 return "<h1>User not found </h1>";
             }
             
+            \cms\bo\UserPermission::addPermissions($user->id, ['editor']);
+            
+            
             $user->status = 2;
             $user->update();
+            
+            
             
             $this->getView()->assign('email', $user->email);
 

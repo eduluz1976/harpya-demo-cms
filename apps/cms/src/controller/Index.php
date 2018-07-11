@@ -64,5 +64,64 @@ class Index extends Base {
     }
     
     
+    /**
+     * Show the form where an user can inform his email, to send a message with 
+     * a link to reset his password
+     */
+    public function showFormSendLinkResetPassword() {
+
+        $contents = $this->getView()->fetch('forms/inform_email_to_recover_password.tpl');
+        
+        $this->setContents($contents);
+        $this->showLandingPage();        
+    }
+    
+    /**
+     * receive the user's email and send a message with link to reset password
+     */
+    public function sendLinkResetPassword() {
+
+        $email = $this->getParm('email');
+
+        // generate token
+
+        // send email
+        
+        $user = new \cms\bo\User();
+        $user->requestEmailResetPassword($email);
+
+        
+        echo $user->getHash();
+        
+        $this->getView()->assign('email',$email);
+        
+        $contents = $this->getView()->fetch('pages/reset_link_sent.tpl');
+        
+        $this->setContents($contents);
+        $this->showLandingPage();                
+    }
+    
+    /**
+     * executed by token, show the form to reset the password
+     */
+    public function showFormResetPassword() {
+
+        $contents = $this->getView()->fetch('forms/reset_password.tpl');
+        
+        $this->setContents($contents);
+        $this->showLandingPage();                
+    }
+    
+    /**
+     * receive the token and new password
+     */
+    public function performResetPassword() {
+
+        $contents = $this->getView()->fetch('pages/password_reset.tpl');
+        
+        $this->setContents($contents);
+        $this->showLandingPage();                        
+    }
+    
     
 }

@@ -15,7 +15,7 @@ class Token extends Eloquent
         $this->user_id = $id;
         
         $this->controller = Utils::get('controller', $props, '\cms\controller\Signup');
-        $this->method = Utils::get('controller', $props, 'verifyNewUser');
+        $this->method = Utils::get('method', $props, 'verifyNewUser');
         //$this->parms = '[]';
         $this->save();
         return $this->hash;

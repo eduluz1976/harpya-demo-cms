@@ -1,0 +1,1 @@
+Link sent to {$email}

@@ -1,1 +1,4 @@
 Dashboard
+<pre>
+    {$session}
+</pre>
